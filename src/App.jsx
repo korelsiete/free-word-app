@@ -3,23 +3,27 @@ import "./App.css";
 import { useWord } from "./context/WordContext";
 
 function App() {
-  const { actualWord, getRandomWord, saveWord } = useWord();
+  const { word, getWord, saveWord } = useWord();
   const wordRef = useRef();
   const meaningRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveWord({ word: e.target[0].value, meaning: e.target[1].value });
+    saveWord({
+      word: wordRef.current.value,
+      meaning: meaningRef.current.value,
+      id: crypto.randomUUID(),
+    });
     e.target.reset();
   };
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-center">{actualWord?.word}</h1>
-      <p className="text-xl text-center">{actualWord?.meaning}</p>
+      <h1 className="text-3xl font-bold text-center">{word?.word}</h1>
+      <p className="text-xl text-center">{word?.meaning}</p>
       <button
         className="border-2 border-black p-1 rounded-md"
-        onClick={getRandomWord}
+        onClick={getWord}
         type="button"
       >
         Cambiar Palabra

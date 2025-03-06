@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { getRandomInt } from "../utils/mathUtils";
 
@@ -7,22 +7,37 @@ const WordContext = createContext();
 
 // 2️⃣ Proveedor del contexto
 export function WordProvider({ children }) {
-  const [words, setWords] = useLocalStorage("words", []);
-  const [actualWord, setActualWord] = useState(
-    words[getRandomInt(words.length)]
-  );
+  const [storage, saveStorage] = useLocalStorage("words", []);
+  const [copyStorage, setCopyStorage] = useState(storage);
+  const [temporal, setTemporal] = useState([]);
+  const word = temporal[0];
 
-  const getRandomWord = () => {
-    const randomIndex = getRandomInt(words.length);
-    setActualWord(words[randomIndex]);
+  const getWord = () => {
+    const copyWord = copyStorage[getRandomInt(copyStorage.length)];
+    if (!copyWord) return;
+
+    setCopyStorage(copyStorage.filter((w) => w.id !== copyWord.id));
+    setTemporal([copyWord, ...temporal]);
   };
 
   const saveWord = (word) => {
-    setWords([...words, word]);
+    saveStorage([...storage, word]);
+    setCopyStorage([...storage, word]);
   };
 
+  useEffect(() => {
+    getWord();
+  }, []);
+
+  useEffect(() => {
+    if (copyStorage.length === 0 && temporal.length > 1) {
+      setCopyStorage(temporal.slice(1));
+      setTemporal(temporal.slice(0, 1));
+    }
+  }, [copyStorage, temporal]);
+
   return (
-    <WordContext.Provider value={{ actualWord, getRandomWord, saveWord }}>
+    <WordContext.Provider value={{ word, getWord, saveWord }}>
       {children}
     </WordContext.Provider>
   );
