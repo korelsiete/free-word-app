@@ -22,7 +22,7 @@ export function WordProvider({ children }) {
 
   const saveWord = (word) => {
     saveStorage([...storage, word]);
-    setCopyStorage([...storage, word]);
+    setCopyStorage([...copyStorage, word]);
   };
 
   useEffect(() => {
@@ -30,6 +30,9 @@ export function WordProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    if (copyStorage.length === 1 && temporal.length === 0) {
+      getWord();
+    }
     if (copyStorage.length === 0 && temporal.length > 1) {
       setCopyStorage(temporal.slice(1));
       setTemporal(temporal.slice(0, 1));
