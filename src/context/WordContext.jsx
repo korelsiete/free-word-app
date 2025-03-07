@@ -36,9 +36,14 @@ export function WordProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (copyStorage.length === 1 && temporal.length === 0) {
+    if (word === undefined) {
       getWord();
     }
+
+    // if (copyStorage.length === 1 && temporal.length === 0) {
+    //   getWord();
+    // }
+
     if (copyStorage.length === 0 && temporal.length > 1) {
       setCopyStorage(temporal.slice(1));
       setTemporal(temporal.slice(0, 1));
@@ -46,7 +51,7 @@ export function WordProvider({ children }) {
   }, [copyStorage, temporal]);
 
   return (
-    <WordContext.Provider value={{ word, getWord, saveWord }}>
+    <WordContext.Provider value={{ word, getWord, saveWord, deleteWord }}>
       {children}
     </WordContext.Provider>
   );
