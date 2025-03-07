@@ -25,6 +25,12 @@ export function WordProvider({ children }) {
     setCopyStorage([...copyStorage, word]);
   };
 
+  const deleteWord = (id) => {
+    saveStorage(storage.filter((w) => w.id !== id));
+    setCopyStorage(copyStorage.filter((w) => w.id !== id));
+    setTemporal(temporal.filter((w) => w.id !== id));
+  };
+
   useEffect(() => {
     getWord();
   }, []);
