@@ -2,66 +2,66 @@ import { createContext, useContext, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { getRandomInt } from "../utils/mathUtils";
 
-// 1️⃣ Crear el contexto
 const WordContext = createContext();
 
-// 2️⃣ Proveedor del contexto
 export function WordProvider({ children }) {
-  const [storage, saveStorage] = useLocalStorage("words", []);
-  const [copyStorage, setCopyStorage] = useState(storage);
-  const [temporal, setTemporal] = useState([]);
-  let word = temporal[0];
+  const [storage, setStorage] = useLocalStorage("words", []);
+  const [availableWords, setAvailableWords] = useState(storage);
+  const [wordHistory, setWordHistory] = useState([]);
+  const word = wordHistory[0] || null;
 
-  const getWord = () => {
-    const copyWord = copyStorage[getRandomInt(copyStorage.length)];
-    if (!copyWord) return;
+  useEffect(() => {
+    if (!word) selectRandomWord();
 
-    setCopyStorage(copyStorage.filter((w) => w.id !== copyWord.id));
-    setTemporal([copyWord, ...temporal]);
+    if (availableWords.length === 0 && wordHistory.length > 1) {
+      setAvailableWords(wordHistory.slice(1));
+      setWordHistory(wordHistory.slice(0, 1));
+    }
+  }, [availableWords, wordHistory]);
+
+  const selectRandomWord = () => {
+    if (availableWords.length === 0) return;
+    const randomIndex = getRandomInt(availableWords.length);
+    const selectedWord = availableWords[randomIndex];
+    setAvailableWords(availableWords.filter((w) => w.id !== selectedWord.id));
+    setWordHistory([selectedWord, ...wordHistory]);
   };
 
-  const saveWord = (word) => {
-    saveStorage([...storage, word]);
-    setCopyStorage([...copyStorage, word]);
+  const saveWord = (newWord) => {
+    setStorage([...storage, newWord]);
+    setAvailableWords([...availableWords, newWord]);
   };
 
   const deleteWord = (id) => {
-    saveStorage(storage.filter((w) => w.id !== id));
-    setCopyStorage(copyStorage.filter((w) => w.id !== id));
-    setTemporal(temporal.filter((w) => w.id !== id));
+    const updatedStorage = storage.filter((w) => w.id !== id);
+    setStorage(updatedStorage);
+    setAvailableWords(availableWords.filter((w) => w.id !== id));
+    setWordHistory(wordHistory.filter((w) => w.id !== id));
   };
 
-  const editWord = (word) => {
-    saveStorage(storage.map((w) => (w.id === word.id ? word : w)));
-    setCopyStorage(copyStorage.map((w) => (w.id === word.id ? word : w)));
-    setTemporal(temporal.map((w) => (w.id === word.id ? word : w)));
+  const editWord = (updatedWord) => {
+    const updateList = (list) =>
+      list.map((w) => (w.id === updatedWord.id ? updatedWord : w));
+    setStorage(updateList(storage));
+    setAvailableWords(updateList(availableWords));
+    setWordHistory(updateList(wordHistory));
   };
-
-  useEffect(() => {
-    getWord();
-  }, []);
-
-  useEffect(() => {
-    if (word === undefined) {
-      getWord();
-    }
-
-    if (copyStorage.length === 0 && temporal.length > 1) {
-      setCopyStorage(temporal.slice(1));
-      setTemporal(temporal.slice(0, 1));
-    }
-  }, [copyStorage, temporal]);
 
   return (
     <WordContext.Provider
-      value={{ word, getWord, saveWord, deleteWord, editWord }}
+      value={{
+        word,
+        getWord: selectRandomWord,
+        saveWord,
+        deleteWord,
+        editWord,
+      }}
     >
       {children}
     </WordContext.Provider>
   );
 }
 
-// 3️⃣ Hook para acceder al contexto fácilmente
 export function useWord() {
   return useContext(WordContext);
 }
