@@ -10,7 +10,7 @@ export function WordProvider({ children }) {
   const [storage, saveStorage] = useLocalStorage("words", []);
   const [copyStorage, setCopyStorage] = useState(storage);
   const [temporal, setTemporal] = useState([]);
-  const word = temporal[0];
+  let word = temporal[0];
 
   const getWord = () => {
     const copyWord = copyStorage[getRandomInt(copyStorage.length)];
@@ -31,6 +31,12 @@ export function WordProvider({ children }) {
     setTemporal(temporal.filter((w) => w.id !== id));
   };
 
+  const editWord = (word) => {
+    saveStorage(storage.map((w) => (w.id === word.id ? word : w)));
+    setCopyStorage(copyStorage.map((w) => (w.id === word.id ? word : w)));
+    setTemporal(temporal.map((w) => (w.id === word.id ? word : w)));
+  };
+
   useEffect(() => {
     getWord();
   }, []);
@@ -40,10 +46,6 @@ export function WordProvider({ children }) {
       getWord();
     }
 
-    // if (copyStorage.length === 1 && temporal.length === 0) {
-    //   getWord();
-    // }
-
     if (copyStorage.length === 0 && temporal.length > 1) {
       setCopyStorage(temporal.slice(1));
       setTemporal(temporal.slice(0, 1));
@@ -51,7 +53,9 @@ export function WordProvider({ children }) {
   }, [copyStorage, temporal]);
 
   return (
-    <WordContext.Provider value={{ word, getWord, saveWord, deleteWord }}>
+    <WordContext.Provider
+      value={{ word, getWord, saveWord, deleteWord, editWord }}
+    >
       {children}
     </WordContext.Provider>
   );
