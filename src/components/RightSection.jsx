@@ -1,7 +1,9 @@
 import { useToogle } from "../context/ToogleContext";
+import { useWord } from "../context/WordContext";
 import { AddIcon, EditIcon } from "./Icon";
 
 export default function RightSection() {
+  const { word } = useWord();
   const { openAdd, openEdit } = useToogle();
 
   return (
@@ -10,7 +12,7 @@ export default function RightSection() {
       className="flex flex-col gap-2 absolute right-3 top-3"
     >
       <AddIcon onClick={openAdd} />
-      <EditIcon onClick={openEdit} />
+      {word && <EditIcon onClick={openEdit} />}
     </div>
   );
 }

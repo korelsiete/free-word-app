@@ -20,7 +20,7 @@ export default function Modal() {
           className="w-full h-screen top-0 left-0 right-0 bottom-0 fixed bg-[#313131cc]"
         >
           <div
-            className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#f1f1f1] px-[28px] pb-[14px] pt-[40px] rounded-[3px] max-w-[400px] min-w-[290px]"
+            className="absolute top-[32%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#f1f1f1] px-[28px] pb-[14px] pt-[40px] rounded-[3px] max-w-[400px] min-w-[290px]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
