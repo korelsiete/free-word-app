@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+.btn-main {
+  @apply text-sm font-bold italic border-3 rounded-xs px-2 py-1 cursor-pointer transition-colors duration-300;
+}
+
+.form-container {
+  @apply flex flex-col gap-2 justify-center items-center;
+}
+
+.form-input {
+  @apply border-2 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400;
+}
+
+.form-textarea {
+  @apply border-2 rounded px-2 py-1 leading-[15px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[85px];
+}
