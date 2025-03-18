@@ -1,15 +1,23 @@
 import { useToogle } from "../context/ToogleContext";
-import { AddForm, EditForm } from "./Form";
+import { AddForm, EditForm, EditTimeForm } from "./Form";
 import { CloseIcon } from "./Icon";
 
 export default function Modal() {
-  const { closeAdd, closeEdit, isOpenAdd, isOpenEdit } = useToogle();
-  const isAnyOpen = isOpenAdd || isOpenEdit;
+  const {
+    closeAdd,
+    closeEdit,
+    closeTimeEdit,
+    isOpenAdd,
+    isOpenEdit,
+    isOpenTimeEdit,
+  } = useToogle();
+  const isAnyOpen = isOpenAdd || isOpenEdit || isOpenTimeEdit;
 
   function handleClose(e) {
     e.stopPropagation();
     closeAdd();
     closeEdit();
+    closeTimeEdit();
   }
 
   return (
@@ -24,13 +32,14 @@ export default function Modal() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-[8px] right-[8px]"
+              className="absolute top-[8px] right-[8px] w-6 h-6"
               onClick={handleClose}
             >
               <CloseIcon />
             </button>
             {isOpenAdd && <AddForm />}
             {isOpenEdit && <EditForm />}
+            {isOpenTimeEdit && <EditTimeForm />}
           </div>
         </div>
       )}

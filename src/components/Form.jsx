@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useWord } from "../context/WordContext";
 import { useToogle } from "../context/ToogleContext";
 import { PrimaryButton, SecondaryButton } from "./Button";
+import { useTimer } from "../context/TimerContext";
 
 function AddForm() {
   const { closeAdd } = useToogle();
@@ -85,4 +86,39 @@ function EditForm() {
   );
 }
 
-export { AddForm, EditForm };
+function EditTimeForm() {
+  const { closeTimeEdit } = useToogle();
+  const {
+    newDuration,
+    setNewDuration,
+    setDuration,
+    setTimeLeft,
+    setIsRunning,
+  } = useTimer();
+
+  const handleEditTime = (e) => {
+    e.preventDefault();
+    setDuration(newDuration);
+    setTimeLeft(newDuration);
+    setIsRunning(true);
+    closeTimeEdit();
+  };
+
+  return (
+    <form className="form-container" onSubmit={handleEditTime}>
+      <label className="block text-gray-700 text-md font-bold">
+        Ajustar duración (segundos):
+      </label>
+      <input
+        type="number"
+        min="1"
+        value={newDuration}
+        onChange={(e) => setNewDuration(parseInt(e.target.value, 10) || 1)}
+        className="w-full p-2 border rounded-md text-center"
+      />
+      <PrimaryButton type="submit">Aplicar duración</PrimaryButton>
+    </form>
+  );
+}
+
+export { AddForm, EditForm, EditTimeForm };

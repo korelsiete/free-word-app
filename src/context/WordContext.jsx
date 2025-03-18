@@ -9,6 +9,7 @@ export function WordProvider({ children }) {
   const [availableWords, setAvailableWords] = useState(storage);
   const [wordHistory, setWordHistory] = useState([]);
   const word = wordHistory[0] || null;
+  const storageLength = storage.length;
 
   useEffect(() => {
     if (!word) selectRandomWord();
@@ -55,6 +56,7 @@ export function WordProvider({ children }) {
         saveWord,
         deleteWord,
         editWord,
+        storageLength,
       }}
     >
       {children}

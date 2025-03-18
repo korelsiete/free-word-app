@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+import { useTimer } from "../context/TimerContext";
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
-import { AddIcon, EditIcon } from "./Icon";
+import { AddIcon, EditIcon, TimerIcon, CloseIcon } from "./Icon";
 
 export default function RightSection() {
   const { word } = useWord();
@@ -13,6 +15,39 @@ export default function RightSection() {
     >
       <AddIcon onClick={openAdd} />
       {word && <EditIcon onClick={openEdit} />}
+      <TimerIconRender />
     </div>
   );
+}
+
+function TimerIconRender() {
+  const { storageLength } = useWord();
+  const { openTimer, closeTimer, isOpenTimer } = useToogle();
+  const { startTimer, stopTimer } = useTimer();
+
+  const onCloseTimer = () => {
+    closeTimer();
+    stopTimer();
+  };
+
+  const onOpenTimer = () => {
+    openTimer();
+    startTimer();
+  };
+
+  useEffect(() => {
+    if (storageLength < 2) {
+      onCloseTimer();
+    }
+  }, [storageLength]);
+
+  if (storageLength > 1) {
+    if (isOpenTimer) {
+      return <CloseIcon onClick={onCloseTimer} />;
+    } else {
+      return <TimerIcon onClick={onOpenTimer} />;
+    }
+  }
+
+  return null;
 }

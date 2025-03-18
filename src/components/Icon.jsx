@@ -1,6 +1,11 @@
 import editSvg from "../assets/edit.svg";
 import addSvg from "../assets/add.svg";
 import closeSvg from "../assets/close.svg";
+import timerSvg from "../assets/timer.svg";
+import restartSvg from "../assets/restart.svg";
+import pauseSvg from "../assets/pause.svg";
+import playSvg from "../assets/play.svg";
+import settingTimeSvg from "../assets/settingTime.svg";
 
 function Icon({ imgUrl, altText = "Icon", ...props }) {
   return (
@@ -24,7 +29,7 @@ const colors = {
 function IconSecond({ imgUrl, altText = "Icon", bgcolor = "white", ...props }) {
   return (
     <div
-      className={`w-6 h-6 rounded-full ${colors[bgcolor]} p-1 cursor-pointer transition-all`}
+      className={`rounded-full flex items-center justify-center ${colors[bgcolor]} p-1 cursor-pointer transition-all`}
       {...props}
     >
       <img src={imgUrl} alt={altText} />
@@ -40,8 +45,37 @@ function EditIcon({ ...props }) {
   return <Icon imgUrl={editSvg} {...props} />;
 }
 
+function TimerIcon({ ...props }) {
+  return <Icon imgUrl={timerSvg} {...props} />;
+}
+
+function RestartIcon({ ...props }) {
+  return <Icon imgUrl={restartSvg} {...props} />;
+}
+
+function PauseIcon({ ...props }) {
+  return <Icon imgUrl={pauseSvg} {...props} />;
+}
+
+function PlayIcon({ ...props }) {
+  return <Icon imgUrl={playSvg} {...props} />;
+}
+
+function SettingTimeIcon({ ...props }) {
+  return <Icon imgUrl={settingTimeSvg} {...props} />;
+}
+
 function CloseIcon({ ...props }) {
   return <IconSecond imgUrl={closeSvg} bgcolor="red" {...props} />;
 }
 
-export { AddIcon, EditIcon, CloseIcon };
+export {
+  AddIcon,
+  EditIcon,
+  CloseIcon,
+  TimerIcon,
+  RestartIcon,
+  PauseIcon,
+  PlayIcon,
+  SettingTimeIcon,
+};
