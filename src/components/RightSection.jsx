@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useTimer } from "../context/TimerContext";
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
-import { AddIcon, EditIcon, TimerIcon, CloseIcon } from "./Icon";
+import { AddIcon, EditIcon, TimerIcon, CloseIcon, GrupIcon } from "./Icon";
 
 export default function RightSection() {
-  const { word } = useWord();
-  const { openAdd, openEdit } = useToogle();
+  const { word, storageLength } = useWord();
+  const { openAdd, openEdit, openGroup } = useToogle();
 
   return (
     <div
@@ -15,7 +15,8 @@ export default function RightSection() {
     >
       <AddIcon onClick={openAdd} />
       {word && <EditIcon onClick={openEdit} />}
-      <TimerIconRender />
+      {word && <GrupIcon onClick={openGroup} />}
+      {storageLength > 1 && <TimerIconRender />}
     </div>
   );
 }
@@ -23,7 +24,7 @@ export default function RightSection() {
 function TimerIconRender() {
   const { storageLength } = useWord();
   const { openTimer, closeTimer, isOpenTimer } = useToogle();
-  const { startTimer, stopTimer } = useTimer();
+  const { stopTimer } = useTimer();
 
   const onCloseTimer = () => {
     closeTimer();
@@ -32,7 +33,6 @@ function TimerIconRender() {
 
   const onOpenTimer = () => {
     openTimer();
-    startTimer();
   };
 
   useEffect(() => {

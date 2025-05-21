@@ -5,6 +5,7 @@ import timerSvg from "../assets/timer.svg";
 import restartSvg from "../assets/restart.svg";
 import pauseSvg from "../assets/pause.svg";
 import playSvg from "../assets/play.svg";
+import groupSvg from "../assets/group.svg";
 import settingTimeSvg from "../assets/settingTime.svg";
 
 function Icon({ imgUrl, altText = "Icon", ...props }) {
@@ -65,6 +66,10 @@ function SettingTimeIcon({ ...props }) {
   return <Icon imgUrl={settingTimeSvg} {...props} />;
 }
 
+function GrupIcon({ ...props }) {
+  return <Icon imgUrl={groupSvg} {...props} />;
+}
+
 function CloseIcon({ ...props }) {
   return <IconSecond imgUrl={closeSvg} bgcolor="red" {...props} />;
 }
@@ -78,4 +83,5 @@ export {
   PauseIcon,
   PlayIcon,
   SettingTimeIcon,
+  GrupIcon,
 };

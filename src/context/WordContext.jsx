@@ -10,6 +10,24 @@ export function WordProvider({ children }) {
   const [wordHistory, setWordHistory] = useState([]);
   const word = wordHistory[0] || null;
   const storageLength = storage.length;
+  const groupStorage = storage.reduce((acc, word) => {
+    const group = word.group || "No Group";
+
+    if (!acc[group]) {
+      acc[group] = [];
+    }
+
+    const wordData = {
+      word: word.word,
+      accent: word.accent,
+      id: word.id,
+    };
+
+    acc[group].push(wordData);
+
+    return acc;
+  }, {});
+  const groupStorageKeys = Object.keys(groupStorage);
 
   useEffect(() => {
     if (!word) selectRandomWord();
@@ -57,6 +75,8 @@ export function WordProvider({ children }) {
         deleteWord,
         editWord,
         storageLength,
+        groupStorage,
+        groupStorageKeys,
       }}
     >
       {children}

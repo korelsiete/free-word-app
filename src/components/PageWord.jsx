@@ -1,7 +1,12 @@
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
+import LeftSection from "./LeftSection";
+import Modal from "./Modal";
+import ProgressBar from "./ProgressBar";
+import RightSection from "./RightSection";
+import Word from "./Word";
 
-export default function PageFace({ children }) {
+export default function PageWord({ children }) {
   const { isOpenTimer } = useToogle();
   const { getWord } = useWord();
 
@@ -14,7 +19,11 @@ export default function PageFace({ children }) {
       className="w-full h-screen flex flex-col items-center justify-center p-3"
       onClick={handleClick}
     >
-      {children}
+      <LeftSection />
+      <RightSection />
+      <Word />
+      <ProgressBar />
+      <Modal />
     </section>
   );
 }
