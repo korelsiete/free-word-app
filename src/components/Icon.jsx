@@ -11,7 +11,7 @@ import settingTimeSvg from "../assets/settingTime.svg";
 function Icon({ imgUrl, altText = "Icon", ...props }) {
   return (
     <div
-      className="w-8 h-8 rounded-full bg-gray-50 border-2 border-black p-1 cursor-pointer"
+      className="w-9 h-9 rounded-full bg-gray-50 border-2 border-black p-1 cursor-pointer"
       {...props}
     >
       <img src={imgUrl} alt={altText} />
