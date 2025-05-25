@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
 import GroupCard from "./GroupCard";
@@ -6,7 +7,7 @@ import { CloseIcon } from "./Icon";
 
 export default function PageGroup() {
   const { closeGroup } = useToogle();
-  const { groupStorage } = useWord();
+  const { groupStorageOrdered } = useWord();
 
   return (
     <section className="w-full h-screen flex flex-col items-center p-3 pt-6">
@@ -21,7 +22,7 @@ export default function PageGroup() {
 
       <GroupSelector />
 
-      {Object.entries(groupStorage).map(([name, words]) => (
+      {groupStorageOrdered.map(([name, words]) => (
         <GroupCard key={name} groupName={name} groupWords={words} />
       ))}
     </section>

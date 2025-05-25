@@ -27,6 +27,9 @@ export function WordProvider({ children }) {
 
     return acc;
   }, {});
+  const groupStorageOrdered = Object.entries(groupStorage).sort(([a], [b]) =>
+    a.localeCompare(b)
+  );
   const groupStorageKeys = Object.keys(groupStorage);
 
   useEffect(() => {
@@ -77,6 +80,7 @@ export function WordProvider({ children }) {
         storageLength,
         groupStorage,
         groupStorageKeys,
+        groupStorageOrdered,
       }}
     >
       {children}
