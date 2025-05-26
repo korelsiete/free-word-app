@@ -3,24 +3,23 @@ import { useWord } from "../context/WordContext";
 import { useToogle } from "../context/ToogleContext";
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { useTimer } from "../context/TimerContext";
+import capitalizeFirstLetter from "../utils/capitilizeFirstLetter";
 
 function AddForm() {
   const { closeAdd } = useToogle();
   const { saveWord } = useWord();
+  const [valueGRA, setValueGRA] = useState("");
 
   const handleSave = (e) => {
     e.preventDefault();
     const newWord = e.target.word.value.trim();
-    const newMeaning = e.target.meaning.value.trim();
-    const accentSelect = e.target.accent.value;
-    const groupSelect = e.target.grupoRimaAsonante.value;
     if (!newWord) return;
 
     saveWord({
-      word: newWord,
-      meaning: newMeaning,
-      accent: accentSelect,
-      group: groupSelect,
+      word: capitalizeFirstLetter(newWord),
+      meaning: e.target.meaning.value.trim(),
+      accent: e.target.accent.value,
+      group: e.target.grupoRimaAsonante.value,
       id: crypto.randomUUID(),
     });
     closeAdd();
@@ -46,6 +45,7 @@ function AddForm() {
         name="grupoRimaAsonante"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
         required
+        onChange={(e) => setValueGRA(e.target.value)}
       >
         <option value="" disabled selected>
           Select G.R.A
@@ -92,12 +92,21 @@ function AddForm() {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
         required
       >
-        <option value="" disabled selected>
-          Select acento
-        </option>
-        <option value="Aguda">Aguda</option>
-        <option value="Grave">Grave</option>
-        <option value="Esdrujula">Esdrujula</option>
+        {valueGRA.length === 1 ? (
+          <>
+            <option value="Aguda" selected disabled>
+              Aguda
+            </option>
+          </>
+        ) : (
+          <>
+            <option value="" disabled selected>
+              Select acento
+            </option>
+            <option value="Grave">Grave</option>
+            <option value="Esdrujula">Esdrujula</option>
+          </>
+        )}
       </select>
       <PrimaryButton type="submit">Añadir</PrimaryButton>
     </form>

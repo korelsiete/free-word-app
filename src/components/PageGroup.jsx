@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
 import GroupCard from "./GroupCard";
