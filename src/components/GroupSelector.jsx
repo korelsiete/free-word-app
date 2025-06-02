@@ -1,4 +1,5 @@
 import { useWord } from "../context/WordContext";
+import { capFirstEnd } from "../utils/capitalize";
 
 export default function GroupSelector() {
   const { groupStorageKeys } = useWord();
@@ -26,7 +27,7 @@ export default function GroupSelector() {
       </option>
       {groupStorageKeys.map((key) => (
         <option key={key} value={`#${key}`}>
-          {key}
+          {capFirstEnd(key)}
         </option>
       ))}
     </select>

@@ -3,27 +3,60 @@ import { useWord } from "../context/WordContext";
 import { useToogle } from "../context/ToogleContext";
 import { PrimaryButton, SecondaryButton } from "./Button";
 import { useTimer } from "../context/TimerContext";
-import capitalizeFirstLetter from "../utils/capitilizeFirstLetter";
+import { capFirst, capFirstEnd } from "../utils/capitalize";
 
 function AddForm() {
   const { closeAdd } = useToogle();
   const { saveWord } = useWord();
   const [valueGRA, setValueGRA] = useState("");
+  const valuesGRA = [
+    "a",
+    "e",
+    "i",
+    "o",
+    "u",
+    "axa",
+    "axe",
+    "axi",
+    "axo",
+    "axu",
+    "exa",
+    "exe",
+    "exi",
+    "exo",
+    "exu",
+    "ixa",
+    "ixe",
+    "ixi",
+    "ixo",
+    "ixu",
+    "oxa",
+    "oxe",
+    "oxi",
+    "oxo",
+    "oxu",
+    "uxa",
+    "uxe",
+    "uxi",
+    "uxo",
+    "uxu",
+  ];
 
   const handleSave = (e) => {
     e.preventDefault();
+
     const newWord = e.target.word.value.trim();
     if (!newWord) return;
 
     saveWord({
-      word: capitalizeFirstLetter(newWord),
-      meaning: e.target.meaning.value.trim(),
+      word: newWord,
+      meaning: e.target.meaning.value,
       accent: e.target.accent.value,
       group: e.target.grupoRimaAsonante.value,
-      id: crypto.randomUUID(),
     });
-    closeAdd();
+
     e.target.reset();
+    closeAdd();
   };
 
   return (
@@ -44,47 +77,17 @@ function AddForm() {
       <select
         name="grupoRimaAsonante"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
-        required
         onChange={(e) => setValueGRA(e.target.value)}
+        required
       >
         <option value="" disabled selected>
           Select G.R.A
         </option>
-        <option value="A">A</option>
-        <option value="E">E</option>
-        <option value="I">I</option>
-        <option value="O">O</option>
-        <option value="U">U</option>
-
-        <option value="AxA">AxA</option>
-        <option value="AxE">AxE</option>
-        <option value="AxI">AxI</option>
-        <option value="AxO">AxO</option>
-        <option value="AxU">AxU</option>
-
-        <option value="ExA">ExA</option>
-        <option value="ExE">ExE</option>
-        <option value="ExI">ExI</option>
-        <option value="ExO">ExO</option>
-        <option value="ExU">ExU</option>
-
-        <option value="IxA">IxA</option>
-        <option value="IxE">IxE</option>
-        <option value="IxI">IxI</option>
-        <option value="IxO">IxO</option>
-        <option value="IxU">IxU</option>
-
-        <option value="OxA">OxA</option>
-        <option value="OxE">OxE</option>
-        <option value="OxI">OxI</option>
-        <option value="OxO">OxO</option>
-        <option value="OxU">OxU</option>
-
-        <option value="UxA">UxA</option>
-        <option value="UxE">UxE</option>
-        <option value="UxI">UxI</option>
-        <option value="UxO">UxO</option>
-        <option value="UxU">UxU</option>
+        {valuesGRA.map((value) => (
+          <option key={value} value={value}>
+            {capFirstEnd(value)}
+          </option>
+        ))}
       </select>
 
       <select
@@ -94,7 +97,7 @@ function AddForm() {
       >
         {valueGRA.length === 1 ? (
           <>
-            <option value="Aguda" selected disabled>
+            <option value="aguda" selected disabled>
               Aguda
             </option>
           </>
@@ -103,8 +106,8 @@ function AddForm() {
             <option value="" disabled selected>
               Select acento
             </option>
-            <option value="Grave">Grave</option>
-            <option value="Esdrujula">Esdrujula</option>
+            <option value="grave">Grave</option>
+            <option value="esdrujula">Esdrujula</option>
           </>
         )}
       </select>
@@ -121,8 +124,14 @@ function EditForm() {
 
   const handleEdit = (e) => {
     e.preventDefault();
+
     if (!wordEditing.trim()) return;
-    editWord({ word: wordEditing, meaning: meaningEditing, id: word.id });
+
+    editWord(word?.id, {
+      word: wordEditing,
+      meaning: meaningEditing.trim(),
+    });
+
     closeEdit();
   };
 
@@ -140,7 +149,7 @@ function EditForm() {
     <form onSubmit={handleEdit} className="form-container">
       <input
         type="text"
-        value={wordEditing}
+        value={capFirst(wordEditing)}
         onChange={(e) => setWordEditing(e.target.value)}
         placeholder="Palabra"
         className="form-input"
@@ -198,4 +207,34 @@ function EditTimeForm() {
   );
 }
 
-export { AddForm, EditForm, EditTimeForm };
+function InputForm() {
+  const { closeInput } = useToogle();
+  const { saveInputWords } = useWord();
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputSave = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    saveInputWords(inputValue);
+
+    setInputValue("");
+    closeInput();
+  };
+
+  return (
+    <form onSubmit={handleInputSave} className="form-container">
+      <textarea
+        type="text"
+        placeholder="Ingresa código de palabras"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        className="form-inputWord"
+        required
+      />
+      <PrimaryButton type="submit">Añadir</PrimaryButton>
+    </form>
+  );
+}
+
+export { AddForm, EditForm, EditTimeForm, InputForm };

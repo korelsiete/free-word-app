@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { getRandomInt } from "../utils/mathUtils";
+import parseInput from "../utils/parseInput";
+import formatStorage from "../utils/formatStorage";
 
 const WordContext = createContext();
 
@@ -9,6 +11,7 @@ export function WordProvider({ children }) {
   const [availableWords, setAvailableWords] = useState(storage);
   const [wordHistory, setWordHistory] = useState([]);
   const word = wordHistory[0] || null;
+  const formatedStorage = formatStorage(storage);
   const storageLength = storage.length;
   const groupStorage = storage.reduce((acc, word) => {
     const group = word.group || "No Group";
@@ -50,8 +53,31 @@ export function WordProvider({ children }) {
   };
 
   const saveWord = (newWord) => {
+    newWord.word = newWord.word.toLowerCase();
+    newWord.meaning = newWord.meaning.trim();
+    newWord.id = newWord.id || crypto.randomUUID();
+
+    const isInStorage = storage.some((w) => w.word === newWord.word);
+
+    if (isInStorage) return;
+
     setStorage([...storage, newWord]);
     setAvailableWords([...availableWords, newWord]);
+  };
+
+  const saveInputWords = (input) => {
+    const newWords = parseInput(input);
+    const existingWordsSet = new Set(storage.map((w) => w.word));
+
+    const uniqueWords = newWords
+      .filter((wordObj) => !existingWordsSet.has(wordObj.word))
+      .map((wordObj) => ({
+        ...wordObj,
+        id: crypto.randomUUID(),
+      }));
+
+    setStorage([...storage, ...uniqueWords]);
+    setAvailableWords([...availableWords, ...uniqueWords]);
   };
 
   const deleteWord = (id) => {
@@ -61,9 +87,12 @@ export function WordProvider({ children }) {
     setWordHistory(wordHistory.filter((w) => w.id !== id));
   };
 
-  const editWord = (updatedWord) => {
+  const editWord = (id, update) => {
+    update.word = update.word.toLowerCase();
+    update.meaning = update.meaning.trim();
+
     const updateList = (list) =>
-      list.map((w) => (w.id === updatedWord.id ? updatedWord : w));
+      list.map((w) => (w.id === id ? { ...w, ...update } : w));
     setStorage(updateList(storage));
     setAvailableWords(updateList(availableWords));
     setWordHistory(updateList(wordHistory));
@@ -81,6 +110,8 @@ export function WordProvider({ children }) {
         groupStorage,
         groupStorageKeys,
         groupStorageOrdered,
+        saveInputWords,
+        formatedStorage,
       }}
     >
       {children}

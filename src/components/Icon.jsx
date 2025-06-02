@@ -7,11 +7,20 @@ import pauseSvg from "../assets/pause.svg";
 import playSvg from "../assets/play.svg";
 import groupSvg from "../assets/group.svg";
 import settingTimeSvg from "../assets/settingTime.svg";
+import inputSvg from "../assets/input.svg";
+import copySvg from "../assets/copy.svg";
 
-function Icon({ imgUrl, altText = "Icon", ...props }) {
+function Icon({ imgUrl, altText = "Icon", size = "medium", ...props }) {
+  const sizes = {
+    verySmall: "w-5 h-5",
+    small: "w-7 h-7",
+    medium: "w-9 h-9",
+    large: "w-11 h-11",
+  };
+
   return (
     <div
-      className="w-9 h-9 rounded-full bg-gray-50 border-2 border-black p-1 cursor-pointer"
+      className={` ${sizes[size]} flex items-center justify-center rounded-full bg-gray-50 border-2 border-black p-1 cursor-pointer`}
       {...props}
     >
       <img src={imgUrl} alt={altText} />
@@ -19,18 +28,18 @@ function Icon({ imgUrl, altText = "Icon", ...props }) {
   );
 }
 
-const colors = {
-  blue: "bg-blue-500 hover:bg-blue-600",
-  red: "bg-red-500 hover:bg-red-600",
-  green: "bg-green-500 hover:bg-green-600",
-  yellow: "bg-yellow-500 hover:bg-yellow-600",
-  white: "bg-white hover:bg-gray-100",
-};
-
 function IconSecond({ imgUrl, altText = "Icon", bgcolor = "white", ...props }) {
+  const colors = {
+    blue: "bg-blue-500 hover:bg-blue-600",
+    red: "bg-red-500 hover:bg-red-600",
+    green: "bg-green-500 hover:bg-green-600",
+    yellow: "bg-yellow-500 hover:bg-yellow-600",
+    white: "bg-white hover:bg-gray-100",
+  };
+
   return (
     <div
-      className={`rounded-full flex items-center justify-center ${colors[bgcolor]} p-1 cursor-pointer transition-all`}
+      className={`rounded-full flex items-center justify-center ${colors[bgcolor]} p-1  transition-all`}
       {...props}
     >
       <img src={imgUrl} alt={altText} />
@@ -70,6 +79,14 @@ function GrupIcon({ ...props }) {
   return <Icon imgUrl={groupSvg} {...props} />;
 }
 
+function InputIcon({ ...props }) {
+  return <Icon imgUrl={inputSvg} {...props} />;
+}
+
+function CopyIcon({ ...props }) {
+  return <Icon imgUrl={copySvg} {...props} />;
+}
+
 function CloseIcon({ ...props }) {
   return <IconSecond imgUrl={closeSvg} bgcolor="red" {...props} />;
 }
@@ -84,4 +101,6 @@ export {
   PlayIcon,
   SettingTimeIcon,
   GrupIcon,
+  InputIcon,
+  CopyIcon,
 };

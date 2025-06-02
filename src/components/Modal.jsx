@@ -1,6 +1,8 @@
 import { useToogle } from "../context/ToogleContext";
-import { AddForm, EditForm, EditTimeForm } from "./Form";
-import { CloseIcon } from "./Icon";
+import { useWord } from "../context/WordContext";
+import copyToClipboard from "../utils/copyToClipboard";
+import { AddForm, EditForm, EditTimeForm, InputForm } from "./Form";
+import { CloseIcon, CopyIcon, InputIcon } from "./Icon";
 
 export default function Modal() {
   const {
@@ -10,14 +12,34 @@ export default function Modal() {
     isOpenAdd,
     isOpenEdit,
     isOpenTimeEdit,
+    isOpenInput,
+    closeInput,
+    openAdd,
+    openInput,
   } = useToogle();
-  const isAnyOpen = isOpenAdd || isOpenEdit || isOpenTimeEdit;
+  const { formatedStorage } = useWord();
 
-  function handleClose(e) {
-    e.stopPropagation();
+  const isAnyOpen = isOpenAdd || isOpenEdit || isOpenTimeEdit || isOpenInput;
+
+  function handleClose() {
     closeAdd();
     closeEdit();
     closeTimeEdit();
+    closeInput();
+  }
+
+  function handleInput() {
+    if (isOpenInput) {
+      closeInput();
+      openAdd();
+    } else {
+      closeAdd();
+      openInput();
+    }
+  }
+
+  function handleCopy() {
+    copyToClipboard(formatedStorage);
   }
 
   return (
@@ -28,18 +50,27 @@ export default function Modal() {
           className="w-full h-screen top-0 left-0 right-0 bottom-0 fixed bg-[#313131cc]"
         >
           <div
-            className="absolute top-[32%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#f1f1f1] px-[28px] pb-[14px] pt-[40px] rounded-[3px] max-w-[400px] min-w-[290px]"
+            className="absolute top-[32%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#f1f1f1] px-[28px] pb-[14px] pt-[50px] rounded-[3px] max-w-[400px] min-w-[290px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              className="absolute top-[8px] right-[8px] w-6 h-6"
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </button>
+            <div className="absolute top-[8px] right-[8px] flex gap-[6px]">
+              {(isOpenAdd || isOpenInput) && (
+                <>
+                  <CopyIcon size="small" onClick={handleCopy} />
+                  <InputIcon size="small" onClick={handleInput} />
+                </>
+              )}
+              <span
+                className="block cursor-pointer w-7 h-7"
+                onClick={handleClose}
+              >
+                <CloseIcon />
+              </span>
+            </div>
             {isOpenAdd && <AddForm />}
             {isOpenEdit && <EditForm />}
             {isOpenTimeEdit && <EditTimeForm />}
+            {isOpenInput && <InputForm />}
           </div>
         </div>
       )}

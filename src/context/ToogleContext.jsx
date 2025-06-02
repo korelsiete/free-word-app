@@ -8,6 +8,7 @@ export function ToogleProvider({ children }) {
   const [isOpenTimer, setIsOpenTimer] = useState(false);
   const [isOpenTimeEdit, setIsOpenTimeEdit] = useState(false);
   const [isOpenGroup, setIsOpenGroup] = useState(false);
+  const [isOpenInput, setIsOpenInput] = useState(false);
 
   const openAdd = () => setIsOpenAdd(true);
   const closeAdd = () => setIsOpenAdd(false);
@@ -23,6 +24,10 @@ export function ToogleProvider({ children }) {
 
   const openGroup = () => setIsOpenGroup(true);
   const closeGroup = () => setIsOpenGroup(false);
+
+  const openInput = () => setIsOpenInput(true);
+  const closeInput = () => setIsOpenInput(false);
+  const toogleInput = () => setIsOpenInput((prev) => !prev);
 
   return (
     <ToogleContext.Provider
@@ -42,6 +47,10 @@ export function ToogleProvider({ children }) {
         closeTimeEdit,
         openGroup,
         closeGroup,
+        isOpenInput,
+        openInput,
+        closeInput,
+        toogleInput,
       }}
     >
       {children}

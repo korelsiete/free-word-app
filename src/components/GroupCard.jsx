@@ -1,9 +1,13 @@
+import { capFirst, capFirstEnd } from "../utils/capitalize";
+
 export default function GroupCard({ groupName, groupWords }) {
   return (
     <table id={groupName} className="block w-full max-w-[380px] mb-5">
       <thead className="w-full inline-table">
         <tr className="bg-black">
-          <th className="text-white font-medium py-[2px]">{groupName}</th>
+          <th className="text-white font-medium py-[2px]">
+            {capFirstEnd(groupName)}
+          </th>
         </tr>
       </thead>
       <tbody className="w-full inline-table">
@@ -12,8 +16,8 @@ export default function GroupCard({ groupName, groupWords }) {
             key={id}
             className="w-full flex justify-around items-center py-[2px] border-x border-b border-gray-400"
           >
-            <th className="font-bold text-md">{word}</th>
-            <td className="font-normal text-neutral-700">{accent}</td>
+            <th className="font-bold text-md">{capFirst(word)}</th>
+            <td className="font-normal text-neutral-700">{capFirst(accent)}</td>
           </tr>
         ))}
       </tbody>
