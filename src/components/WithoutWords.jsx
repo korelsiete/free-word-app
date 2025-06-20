@@ -1,5 +1,5 @@
 import { useToogle } from "../context/ToogleContext";
-import { PrimaryButton } from "./Button";
+import { Button } from "./Button";
 
 export default function WithoutWords() {
   const { openAdd } = useToogle();
@@ -9,7 +9,7 @@ export default function WithoutWords() {
       <p className="text-lg font-bold text-center leading-[22px]">
         Aún no has agregado ninguna palabra
       </p>
-      <PrimaryButton onClick={openAdd}>Agregar +</PrimaryButton>
+      <Button onClick={openAdd}>Agregar +</Button>
     </div>
   );
 }

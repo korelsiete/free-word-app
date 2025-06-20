@@ -1,6 +1,6 @@
 import { useTimer } from "../context/TimerContext";
 import { useToogle } from "../context/ToogleContext";
-import { PauseIcon, RestartIcon, PlayIcon, SettingTimeIcon } from "./Icon";
+import { IconButton } from "./Button";
 
 export default function TimerControls() {
   const { openTimeEdit } = useToogle();
@@ -8,12 +8,12 @@ export default function TimerControls() {
   return (
     <>
       {isRunning ? (
-        <PauseIcon onClick={() => setIsRunning(false)} />
+        <IconButton icon="pause" onClick={() => setIsRunning(false)} />
       ) : (
-        <PlayIcon onClick={() => setIsRunning(true)} />
+        <IconButton icon="play" onClick={() => setIsRunning(true)} />
       )}
-      <RestartIcon onClick={() => setTimeLeft(duration)} />
-      <SettingTimeIcon onClick={openTimeEdit} />
+      <IconButton icon="restart" onClick={() => setTimeLeft(duration)} />
+      <IconButton icon="control" onClick={openTimeEdit} />
     </>
   );
 }

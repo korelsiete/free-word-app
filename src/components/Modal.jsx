@@ -1,8 +1,8 @@
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
 import copyToClipboard from "../utils/copyToClipboard";
+import { IconButton } from "./Button";
 import { AddForm, EditForm, EditTimeForm, InputForm } from "./Form";
-import { CloseIcon, CopyIcon, InputIcon } from "./Icon";
 
 export default function Modal() {
   const {
@@ -56,15 +56,15 @@ export default function Modal() {
             <div className="absolute top-[8px] right-[8px] flex gap-[6px]">
               {(isOpenAdd || isOpenInput) && (
                 <>
-                  <CopyIcon size="small" onClick={handleCopy} />
-                  <InputIcon size="small" onClick={handleInput} />
+                  <IconButton icon="copy" size="small" onClick={handleCopy} />
+                  <IconButton icon="input" size="small" onClick={handleInput} />
                 </>
               )}
               <span
                 className="block cursor-pointer w-7 h-7"
                 onClick={handleClose}
               >
-                <CloseIcon />
+                <IconButton icon="close" size="small" color="danger" />
               </span>
             </div>
             {isOpenAdd && <AddForm />}

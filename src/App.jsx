@@ -1,12 +1,15 @@
-import "./App.css";
-import PageGroup from "./components/PageGroup";
-import PageWord from "./components/PageWord";
-import { useToogle } from "./context/ToogleContext";
+import Home from "./pages/Home";
+import Groups from "./pages/Groups";
+import { Route, Routes } from "react-router";
+import "./index.css";
 
 function App() {
-  const { isOpenGroup } = useToogle();
-
-  return <main>{isOpenGroup ? <PageGroup /> : <PageWord />}</main>;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/groups" element={<Groups />} />
+    </Routes>
+  );
 }
 
 export default App;

@@ -1,12 +1,12 @@
-import { useToogle } from "../context/ToogleContext";
+import LeftSection from "../components/LeftSection";
+import RightSection from "../components/RightSection";
+import ProgressBar from "../components/ProgressBar";
+import Modal from "../components/Modal";
+import Word from "../components/Word";
 import { useWord } from "../context/WordContext";
-import LeftSection from "./LeftSection";
-import Modal from "./Modal";
-import ProgressBar from "./ProgressBar";
-import RightSection from "./RightSection";
-import Word from "./Word";
+import { useToogle } from "../context/ToogleContext";
 
-export default function PageWord({ children }) {
+export default function Home() {
   const { isOpenTimer } = useToogle();
   const { getWord } = useWord();
 

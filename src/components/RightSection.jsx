@@ -2,20 +2,25 @@ import { useEffect } from "react";
 import { useTimer } from "../context/TimerContext";
 import { useToogle } from "../context/ToogleContext";
 import { useWord } from "../context/WordContext";
-import { AddIcon, EditIcon, TimerIcon, CloseIcon, GrupIcon } from "./Icon";
+import { Link } from "react-router";
+import { IconButton } from "./Button";
 
 export default function RightSection() {
   const { word, storageLength } = useWord();
-  const { openAdd, openEdit, openGroup } = useToogle();
+  const { openAdd, openEdit } = useToogle();
 
   return (
     <div
       onClick={(e) => e.stopPropagation()}
       className="flex flex-col gap-2 absolute right-3 top-3"
     >
-      <AddIcon onClick={openAdd} />
-      {word && <EditIcon onClick={openEdit} />}
-      {word && <GrupIcon onClick={openGroup} />}
+      <IconButton icon="add" onClick={openAdd} />
+      {word && <IconButton icon="edit" onClick={openEdit} />}
+      {word && (
+        <Link to="/groups">
+          <IconButton icon="group" />
+        </Link>
+      )}
       {storageLength > 1 && <TimerIconRender />}
     </div>
   );
@@ -43,9 +48,9 @@ function TimerIconRender() {
 
   if (storageLength > 1) {
     if (isOpenTimer) {
-      return <CloseIcon onClick={onCloseTimer} />;
+      return <IconButton icon="close" color="danger" onClick={onCloseTimer} />;
     } else {
-      return <TimerIcon onClick={onOpenTimer} />;
+      return <IconButton icon="timer" onClick={onOpenTimer} />;
     }
   }
 

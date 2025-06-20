@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useWord } from "../context/WordContext";
 import { useToogle } from "../context/ToogleContext";
-import { PrimaryButton, SecondaryButton } from "./Button";
+import { Button } from "./Button";
 import { useTimer } from "../context/TimerContext";
 import { capFirst, capFirstEnd } from "../utils/capitalize";
 
@@ -111,7 +111,7 @@ function AddForm() {
           </>
         )}
       </select>
-      <PrimaryButton type="submit">Añadir</PrimaryButton>
+      <Button type="submit">Añadir</Button>
     </form>
   );
 }
@@ -162,10 +162,12 @@ function EditForm() {
         className="form-textarea"
       />
       <div className="flex gap-2">
-        <PrimaryButton type="submit">Guardar</PrimaryButton>
-        <SecondaryButton type="button" onClick={handleDelete}>
+        <Button type="submit" color="second">
+          Guardar
+        </Button>
+        <Button type="button" color="danger" onClick={handleDelete}>
           Eliminar
-        </SecondaryButton>
+        </Button>
       </div>
     </form>
   );
@@ -202,7 +204,7 @@ function EditTimeForm() {
         onChange={(e) => setNewDuration(parseInt(e.target.value, 10) || 1)}
         className="w-full p-2 border rounded-md text-center"
       />
-      <PrimaryButton type="submit">Aplicar duración</PrimaryButton>
+      <Button type="submit">Aplicar duración</Button>
     </form>
   );
 }
@@ -232,7 +234,7 @@ function InputForm() {
         className="form-inputWord"
         required
       />
-      <PrimaryButton type="submit">Añadir</PrimaryButton>
+      <Button type="submit">Añadir</Button>
     </form>
   );
 }
