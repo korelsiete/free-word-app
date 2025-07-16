@@ -1,8 +1,8 @@
-import { useToogle } from "../context/ToogleContext";
 import TimerControls from "./TimerControls";
+import useToggleStore from "../stores/useToggleStore";
 
 export default function LeftSection() {
-  const { isOpenTimer } = useToogle();
+  const isOpenTimer = useToggleStore((state) => state.isOpenTimer);
 
   return (
     <div

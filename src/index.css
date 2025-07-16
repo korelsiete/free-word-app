@@ -42,11 +42,11 @@
 }
 
 .form-input {
-  @apply border-2 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400;
+  @apply border-2 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white;
 }
 
 .form-textarea {
-  @apply border-2 rounded px-2 py-1 leading-[15px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[85px];
+  @apply border-2 rounded px-2 py-1 leading-[15px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[85px] bg-white;
 }
 
 .form-inputWord {

@@ -1,11 +1,16 @@
 import GroupSelector from "../components/GroupSelector";
 import GroupCard from "../components/GroupCard";
+import useWordStore from "../stores/useWordStore";
 import { Link } from "react-router";
-import { useWord } from "../context/WordContext";
 import { IconButton } from "../components/Button";
+import { compareStrings } from "../utils/string";
 
 export default function Groups() {
-  const { groupStorageOrdered } = useWord();
+  const storage = useWordStore((state) => state.storage);
+
+  const grouped = Object.entries(
+    Object.groupBy(storage, ({ group }) => group)
+  ).sort(([a], [b]) => compareStrings(a, b));
 
   return (
     <section className="w-full h-screen flex flex-col items-center p-3 pt-6">
@@ -17,8 +22,8 @@ export default function Groups() {
 
       <GroupSelector />
 
-      {groupStorageOrdered.map(([name, words]) => (
-        <GroupCard key={name} groupName={name} groupWords={words} />
+      {grouped.map(([group, words]) => (
+        <GroupCard key={group} groupName={group} groupWords={words} />
       ))}
     </section>
   );

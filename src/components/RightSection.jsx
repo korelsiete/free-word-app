@@ -1,13 +1,15 @@
-import { useEffect } from "react";
-import { useTimer } from "../context/TimerContext";
-import { useToogle } from "../context/ToogleContext";
-import { useWord } from "../context/WordContext";
-import { Link } from "react-router";
+import useTimeStore from "../stores/useTimeStore";
+import useToggleStore from "../stores/useToggleStore";
+import useWordStore from "../stores/useWordStore";
 import { IconButton } from "./Button";
+import { useEffect } from "react";
+import { Link } from "react-router";
 
 export default function RightSection() {
-  const { word, storageLength } = useWord();
-  const { openAdd, openEdit } = useToogle();
+  const word = useWordStore((state) => state.current[0]);
+  const length = useWordStore((state) => state.storage.length);
+  const openAdd = useToggleStore((state) => state.openAdd);
+  const openEdit = useToggleStore((state) => state.openEdit);
 
   return (
     <div
@@ -21,36 +23,34 @@ export default function RightSection() {
           <IconButton icon="group" />
         </Link>
       )}
-      {storageLength > 1 && <TimerIconRender />}
+      {length > 1 && <TimerIconRender />}
     </div>
   );
 }
 
 function TimerIconRender() {
-  const { storageLength } = useWord();
-  const { openTimer, closeTimer, isOpenTimer } = useToogle();
-  const { stopTimer } = useTimer();
+  const length = useWordStore((store) => store.storage.length);
+  const openTimer = useToggleStore((state) => state.openTimer);
+  const closeTimer = useToggleStore((state) => state.closeTimer);
+  const isOpenTimer = useToggleStore((state) => state.isOpenTimer);
+  const stop = useTimeStore((store) => store.stop);
 
   const onCloseTimer = () => {
     closeTimer();
-    stopTimer();
-  };
-
-  const onOpenTimer = () => {
-    openTimer();
+    stop();
   };
 
   useEffect(() => {
-    if (storageLength < 2) {
+    if (length < 2) {
       onCloseTimer();
     }
-  }, [storageLength]);
+  }, [length]);
 
-  if (storageLength > 1) {
+  if (length > 1) {
     if (isOpenTimer) {
       return <IconButton icon="close" color="danger" onClick={onCloseTimer} />;
     } else {
-      return <IconButton icon="timer" onClick={onOpenTimer} />;
+      return <IconButton icon="timer" onClick={openTimer} />;
     }
   }
 

@@ -1,58 +1,27 @@
+import useToggleStore from "../stores/useToggleStore";
+import useTimeStore from "../stores/useTimeStore";
+import useWordStore from "../stores/useWordStore";
 import { useEffect, useState } from "react";
-import { useWord } from "../context/WordContext";
-import { useToogle } from "../context/ToogleContext";
 import { Button } from "./Button";
-import { useTimer } from "../context/TimerContext";
-import { capFirst, capFirstEnd } from "../utils/capitalize";
 
 function AddForm() {
-  const { closeAdd } = useToogle();
-  const { saveWord } = useWord();
-  const [valueGRA, setValueGRA] = useState("");
-  const valuesGRA = [
-    "a",
-    "e",
-    "i",
-    "o",
-    "u",
-    "axa",
-    "axe",
-    "axi",
-    "axo",
-    "axu",
-    "exa",
-    "exe",
-    "exi",
-    "exo",
-    "exu",
-    "ixa",
-    "ixe",
-    "ixi",
-    "ixo",
-    "ixu",
-    "oxa",
-    "oxe",
-    "oxi",
-    "oxo",
-    "oxu",
-    "uxa",
-    "uxe",
-    "uxi",
-    "uxo",
-    "uxu",
-  ];
+  const closeAdd = useToggleStore((state) => state.closeAdd);
+  const saveWord = useWordStore((state) => state.saveWord);
+  const groups = useWordStore((state) => state.groups);
+
+  const [group, setGroup] = useState("");
 
   const handleSave = (e) => {
     e.preventDefault();
 
-    const newWord = e.target.word.value.trim();
-    if (!newWord) return;
+    const word = e.target.word.value.trim();
+    if (!word) return;
 
     saveWord({
-      word: newWord,
+      word: word,
       meaning: e.target.meaning.value,
       accent: e.target.accent.value,
-      group: e.target.grupoRimaAsonante.value,
+      group: group,
     });
 
     e.target.reset();
@@ -75,17 +44,17 @@ function AddForm() {
         className="form-textarea"
       />
       <select
-        name="grupoRimaAsonante"
+        name="group"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
-        onChange={(e) => setValueGRA(e.target.value)}
+        onChange={(e) => setGroup(e.target.value)}
         required
       >
         <option value="" disabled selected>
-          Select G.R.A
+          Grupo
         </option>
-        {valuesGRA.map((value) => (
-          <option key={value} value={value}>
-            {capFirstEnd(value)}
+        {groups.map((g) => (
+          <option key={g} value={g}>
+            {g}
           </option>
         ))}
       </select>
@@ -95,7 +64,7 @@ function AddForm() {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
         required
       >
-        {valueGRA.length === 1 ? (
+        {group.length === 1 ? (
           <>
             <option value="aguda" selected disabled>
               Aguda
@@ -107,7 +76,7 @@ function AddForm() {
               Select acento
             </option>
             <option value="grave">Grave</option>
-            <option value="esdrujula">Esdrujula</option>
+            <option value="esdrújula">Esdrujula</option>
           </>
         )}
       </select>
@@ -117,8 +86,11 @@ function AddForm() {
 }
 
 function EditForm() {
-  const { closeEdit } = useToogle();
-  const { word, deleteWord, editWord } = useWord();
+  const closeEdit = useToggleStore((state) => state.closeEdit);
+  const word = useWordStore((state) => state.current[0]);
+  const deleteWord = useWordStore((state) => state.deleteWord);
+  const editWord = useWordStore((state) => state.editWord);
+
   const [wordEditing, setWordEditing] = useState("");
   const [meaningEditing, setMeaningEditing] = useState("");
 
@@ -129,7 +101,7 @@ function EditForm() {
 
     editWord(word?.id, {
       word: wordEditing,
-      meaning: meaningEditing.trim(),
+      meaning: meaningEditing,
     });
 
     closeEdit();
@@ -149,7 +121,7 @@ function EditForm() {
     <form onSubmit={handleEdit} className="form-container">
       <input
         type="text"
-        value={capFirst(wordEditing)}
+        value={wordEditing}
         onChange={(e) => setWordEditing(e.target.value)}
         placeholder="Palabra"
         className="form-input"
@@ -174,20 +146,14 @@ function EditForm() {
 }
 
 function EditTimeForm() {
-  const { closeTimeEdit } = useToogle();
-  const {
-    newDuration,
-    setNewDuration,
-    setDuration,
-    setTimeLeft,
-    setIsRunning,
-  } = useTimer();
+  const closeTimeEdit = useToggleStore((state) => state.closeTimeEdit);
+  const duration = useTimeStore((state) => state.duration);
+  const setDuration = useTimeStore((state) => state.setDuration);
+  const [newDuration, setNewDuration] = useState(duration);
 
   const handleEditTime = (e) => {
     e.preventDefault();
     setDuration(newDuration);
-    setTimeLeft(newDuration);
-    setIsRunning(true);
     closeTimeEdit();
   };
 
@@ -201,7 +167,7 @@ function EditTimeForm() {
         step="1"
         min="1"
         value={newDuration}
-        onChange={(e) => setNewDuration(parseInt(e.target.value, 10) || 1)}
+        onChange={(e) => setNewDuration(parseInt(e.target.value, 10))}
         className="w-full p-2 border rounded-md text-center"
       />
       <Button type="submit">Aplicar duración</Button>
@@ -210,15 +176,16 @@ function EditTimeForm() {
 }
 
 function InputForm() {
-  const { closeInput } = useToogle();
-  const { saveInputWords } = useWord();
+  const closeInput = useToggleStore((state) => state.closeInput);
+  const saveInput = useWordStore((state) => state.saveInput);
+
   const [inputValue, setInputValue] = useState("");
 
   const handleInputSave = (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    saveInputWords(inputValue);
+    saveInput(inputValue);
 
     setInputValue("");
     closeInput();

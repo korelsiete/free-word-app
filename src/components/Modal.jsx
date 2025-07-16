@@ -1,23 +1,21 @@
-import { useToogle } from "../context/ToogleContext";
-import { useWord } from "../context/WordContext";
-import copyToClipboard from "../utils/copyToClipboard";
+import useToggleStore from "../stores/useToggleStore";
+import useWordStore from "../stores/useWordStore";
+import { copyToClipboard } from "../utils/web";
 import { IconButton } from "./Button";
 import { AddForm, EditForm, EditTimeForm, InputForm } from "./Form";
 
 export default function Modal() {
-  const {
-    closeAdd,
-    closeEdit,
-    closeTimeEdit,
-    isOpenAdd,
-    isOpenEdit,
-    isOpenTimeEdit,
-    isOpenInput,
-    closeInput,
-    openAdd,
-    openInput,
-  } = useToogle();
-  const { formatedStorage } = useWord();
+  const isOpenAdd = useToggleStore((state) => state.isOpenAdd);
+  const isOpenEdit = useToggleStore((state) => state.isOpenEdit);
+  const isOpenTimeEdit = useToggleStore((state) => state.isOpenTimeEdit);
+  const isOpenInput = useToggleStore((state) => state.isOpenInput);
+  const closeAdd = useToggleStore((state) => state.closeAdd);
+  const closeEdit = useToggleStore((state) => state.closeEdit);
+  const closeTimeEdit = useToggleStore((state) => state.closeTimeEdit);
+  const closeInput = useToggleStore((state) => state.closeInput);
+  const openAdd = useToggleStore((state) => state.openAdd);
+  const openInput = useToggleStore((state) => state.openInput);
+  const storageCode = useWordStore((state) => state.storageCode);
 
   const isAnyOpen = isOpenAdd || isOpenEdit || isOpenTimeEdit || isOpenInput;
 
@@ -39,7 +37,7 @@ export default function Modal() {
   }
 
   function handleCopy() {
-    copyToClipboard(formatedStorage);
+    copyToClipboard(storageCode);
   }
 
   return (

@@ -1,8 +1,8 @@
-import { useWord } from "../context/WordContext";
-import { capFirstEnd } from "../utils/capitalize";
+import useWordStore from "../stores/useWordStore";
 
 export default function GroupSelector() {
-  const { groupStorageKeys } = useWord();
+  const storage = useWordStore((store) => store.storage);
+  const groups = Object.keys(Object.groupBy(storage, ({ group }) => group));
 
   const handleChange = (e) => {
     const groupSelected = e.target.value;
@@ -25,9 +25,9 @@ export default function GroupSelector() {
       <option value="" disabled selected>
         Search group
       </option>
-      {groupStorageKeys.map((key) => (
+      {groups.map((key) => (
         <option key={key} value={`#${key}`}>
-          {capFirstEnd(key)}
+          {key}
         </option>
       ))}
     </select>

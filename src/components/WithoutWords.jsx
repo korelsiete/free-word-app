@@ -1,8 +1,8 @@
-import { useToogle } from "../context/ToogleContext";
+import useToggleStore from "../stores/useToggleStore";
 import { Button } from "./Button";
 
 export default function WithoutWords() {
-  const { openAdd } = useToogle();
+  const openAdd = useToggleStore((state) => state.openAdd);
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">

@@ -15,9 +15,26 @@ function capFirstEnd(string) {
 
 function capFirst(string) {
   if (typeof string !== "string" || string.length === 0) {
-    return string; // Return the original value if it's not a string or is empty
+    return string;
   }
   return string.toLowerCase().charAt(0).toUpperCase() + string.slice(1);
 }
 
-export { capFirstEnd, capFirst };
+function compareStrings(a, b) {
+  const al = a.length;
+  const bl = b.length;
+
+  if (a === b) return 0;
+  if (al !== bl) return al - bl;
+
+  const minLength = Math.min(al, bl);
+
+  for (let i = 0; i < minLength; i++) {
+    const char1 = a.charCodeAt(i);
+    const char2 = b.charCodeAt(i);
+
+    if (char1 !== char2) return char1 - char2;
+  }
+}
+
+export { capFirstEnd, capFirst, compareStrings };

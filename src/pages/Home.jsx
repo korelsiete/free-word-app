@@ -1,19 +1,20 @@
+import Modal from "../components/Modal";
+import Word from "../components/Word";
 import LeftSection from "../components/LeftSection";
 import RightSection from "../components/RightSection";
 import ProgressBar from "../components/ProgressBar";
-import Modal from "../components/Modal";
-import Word from "../components/Word";
-import { useWord } from "../context/WordContext";
-import { useToogle } from "../context/ToogleContext";
+import useWordStore from "../stores/useWordStore";
+import useToggleStore from "../stores/useToggleStore";
 
 export default function Home() {
-  const { isOpenTimer } = useToogle();
-  const { getWord } = useWord();
+  const isOpenTimer = useToggleStore((state) => state.isOpenTimer);
+  const changeCurrent = useWordStore((state) => state.changeCurrent);
 
-  function handleClick(e) {
+  function handleClick() {
     if (isOpenTimer) return;
-    getWord();
+    changeCurrent();
   }
+
   return (
     <section
       className="w-full h-screen flex flex-col items-center justify-center p-3"

@@ -1,18 +1,17 @@
+import useTimeStore from "../stores/useTimeStore";
+import useWordStore from "../stores/useWordStore";
+import useToggleStore from "../stores/useToggleStore";
 import { useEffect } from "react";
-import { useTimer } from "../context/TimerContext";
-import { useWord } from "../context/WordContext";
-import { useToogle } from "../context/ToogleContext";
 
 export default function ProgressBar() {
-  const { getWord } = useWord();
-  const { isOpenTimer } = useToogle();
-  const { timeLeft, duration } = useTimer();
-  const progress = (timeLeft / duration) * 100;
+  const changeCurrent = useWordStore((state) => state.changeCurrent);
+  const isOpenTimer = useToggleStore((state) => state.isOpenTimer);
+  const timeLeft = useTimeStore((state) => state.timeLeft);
+  const progress = useTimeStore((state) => (timeLeft / state.duration) * 100);
+  const finish = useTimeStore((state) => state.finish);
 
   useEffect(() => {
-    if (timeLeft < 1) {
-      getWord();
-    }
+    if (finish) changeCurrent();
   }, [timeLeft]);
 
   return (

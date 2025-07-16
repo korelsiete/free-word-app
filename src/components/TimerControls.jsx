@@ -1,18 +1,22 @@
-import { useTimer } from "../context/TimerContext";
-import { useToogle } from "../context/ToogleContext";
+import useTimeStore from "../stores/useTimeStore";
+import useToggleStore from "../stores/useToggleStore";
 import { IconButton } from "./Button";
 
 export default function TimerControls() {
-  const { openTimeEdit } = useToogle();
-  const { isRunning, setIsRunning, setTimeLeft, duration } = useTimer();
+  const openTimeEdit = useToggleStore((state) => state.openTimeEdit);
+  const isRunning = useTimeStore((state) => state.isRunning);
+  const start = useTimeStore((state) => state.start);
+  const stop = useTimeStore((state) => state.stop);
+  const restart = useTimeStore((state) => state.restart);
+
   return (
     <>
       {isRunning ? (
-        <IconButton icon="pause" onClick={() => setIsRunning(false)} />
+        <IconButton icon="pause" onClick={stop} />
       ) : (
-        <IconButton icon="play" onClick={() => setIsRunning(true)} />
+        <IconButton icon="play" onClick={start} />
       )}
-      <IconButton icon="restart" onClick={() => setTimeLeft(duration)} />
+      <IconButton icon="restart" onClick={restart} />
       <IconButton icon="control" onClick={openTimeEdit} />
     </>
   );
