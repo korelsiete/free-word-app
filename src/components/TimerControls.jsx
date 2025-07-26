@@ -1,6 +1,6 @@
 import useTimeStore from "../stores/useTimeStore";
 import useToggleStore from "../stores/useToggleStore";
-import { IconButton } from "./Button";
+import { Icon } from "./Button";
 
 export default function TimerControls() {
   const openTimeEdit = useToggleStore((state) => state.openTimeEdit);
@@ -12,12 +12,12 @@ export default function TimerControls() {
   return (
     <>
       {isRunning ? (
-        <IconButton icon="pause" onClick={stop} />
+        <Icon type="pause" onClick={stop} />
       ) : (
-        <IconButton icon="play" onClick={start} />
+        <Icon type="play" onClick={start} />
       )}
-      <IconButton icon="restart" onClick={restart} />
-      <IconButton icon="control" onClick={openTimeEdit} />
+      <Icon type="restart" onClick={restart} />
+      <Icon type="control" onClick={openTimeEdit} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import useTimeStore from "../stores/useTimeStore";
 import useToggleStore from "../stores/useToggleStore";
 import useWordStore from "../stores/useWordStore";
-import { IconButton } from "./Button";
+import { Icon } from "./Button";
 import { useEffect } from "react";
 import { Link } from "react-router";
 
@@ -16,11 +16,11 @@ export default function RightSection() {
       onClick={(e) => e.stopPropagation()}
       className="flex flex-col gap-2 absolute right-3 top-3"
     >
-      <IconButton icon="add" onClick={openAdd} />
-      {word && <IconButton icon="edit" onClick={openEdit} />}
+      <Icon type="add" onClick={openAdd} />
+      {word && <Icon type="edit" onClick={openEdit} />}
       {word && (
         <Link to="/groups">
-          <IconButton icon="group" />
+          <Icon type="group" />
         </Link>
       )}
       {length > 1 && <TimerIconRender />}
@@ -48,9 +48,9 @@ function TimerIconRender() {
 
   if (length > 1) {
     if (isOpenTimer) {
-      return <IconButton icon="close" color="danger" onClick={onCloseTimer} />;
+      return <Icon type="close" color="danger" onClick={onCloseTimer} />;
     } else {
-      return <IconButton icon="timer" onClick={openTimer} />;
+      return <Icon type="timer" onClick={openTimer} />;
     }
   }
 

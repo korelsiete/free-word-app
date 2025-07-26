@@ -1,63 +1,83 @@
-import edit from "../assets/edit.svg";
-import add from "../assets/add.svg";
-import close from "../assets/close.svg";
-import timer from "../assets/timer.svg";
-import restart from "../assets/restart.svg";
-import pause from "../assets/pause.svg";
-import play from "../assets/play.svg";
-import group from "../assets/group.svg";
-import control from "../assets/settingTime.svg";
-import input from "../assets/input.svg";
-import copy from "../assets/copy.svg";
+import {
+  AdjustmentsHorizontalIcon,
+  ArrowPathIcon,
+  ClipboardDocumentListIcon,
+  ClockIcon,
+  ItalicIcon,
+  PauseIcon,
+  PencilIcon,
+  PlayIcon,
+  PlusIcon,
+  Squares2X2Icon,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
 
 function Button({
   children,
-  size = "",
-  styled = "btn-main",
-  color = "main",
+  onClick = null,
+  color = "primary",
+  className = "",
   ...props
 }) {
-  const colors = {
-    main: "bg-gray-100 hover:bg-gray-300 text-black border-black",
-    second:
-      "bg-blue-600 hover:bg-blue-800 text-white border-blue-600 hover:border-blue-800",
-    danger:
-      "bg-red-500 hover:bg-red-600 text-white border-red-500 hover:border-red-600",
+  const schema = {
+    primary:
+      "text-white bg-primary/90 hover:bg-primary-dark dark:shadow-md dark:shadow-primary-dark/50 ring-primary-light dark:hover:ring-2 dark:ring-white",
+    danger: "text-white bg-red-500 hover:bg-red-600",
   };
 
   return (
-    <button className={`${styled} ${colors[color]} ${size}`} {...props}>
+    <button
+      className={`button rounded-sm px-2 py-1 ${schema[color]} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   );
 }
 
-function IconButton({ icon, size = "medium", color = "main", ...props }) {
+const icons = {
+  add: <PlusIcon />,
+  close: <XMarkIcon />,
+  control: <AdjustmentsHorizontalIcon />,
+  copy: <ClipboardDocumentListIcon />,
+  edit: <PencilIcon />,
+  group: <Squares2X2Icon />,
+  input: <ItalicIcon />,
+  pause: <PauseIcon />,
+  play: <PlayIcon />,
+  restart: <ArrowPathIcon />,
+  timer: <ClockIcon />,
+};
+
+function Icon({
+  onClick = null,
+  color = "primary",
+  size = "normal",
+  className = "",
+  type,
+  ...props
+}) {
   const sizes = {
-    small: "w-7 h-7",
-    medium: "w-9 h-9",
-    large: "w-11 h-11",
+    small: "size-7",
+    normal: "size-9",
   };
 
-  const icons = {
-    edit,
-    add,
-    close,
-    timer,
-    restart,
-    pause,
-    play,
-    group,
-    control,
-    input,
-    copy,
+  const schema = {
+    primary:
+      "bg-secondary hover:bg-secondary-dark dark:shadow-lg dark:shadow-secondary/50",
+    danger: "text-white bg-red-500 hover:bg-red-600",
   };
 
   return (
-    <Button size={sizes[size]} color={color} styled="btn-icon" {...props}>
-      <img src={icons[icon]} alt="Icon image" />
-    </Button>
+    <div
+      className={`button rounded-full p-1 ${sizes[size]} ${schema[color]} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
+      {icons[type]}
+    </div>
   );
 }
 
-export { Button, IconButton };
+export { Button, Icon };

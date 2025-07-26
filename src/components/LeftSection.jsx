@@ -7,7 +7,7 @@ export default function LeftSection() {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="flex flex-col gap-2 absolute left-3 top-3"
+      className="flex flex-col gap-2 absolute left-3 top-14"
     >
       {isOpenTimer && <TimerControls />}
     </div>

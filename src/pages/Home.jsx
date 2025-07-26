@@ -1,3 +1,4 @@
+import Layout from "../components/Layout";
 import Modal from "../components/Modal";
 import Word from "../components/Word";
 import LeftSection from "../components/LeftSection";
@@ -7,8 +8,8 @@ import useWordStore from "../stores/useWordStore";
 import useToggleStore from "../stores/useToggleStore";
 
 export default function Home() {
-  const isOpenTimer = useToggleStore((state) => state.isOpenTimer);
-  const changeCurrent = useWordStore((state) => state.changeCurrent);
+  const isOpenTimer = useToggleStore((s) => s.isOpenTimer);
+  const changeCurrent = useWordStore((s) => s.changeCurrent);
 
   function handleClick() {
     if (isOpenTimer) return;
@@ -16,15 +17,12 @@ export default function Home() {
   }
 
   return (
-    <section
-      className="w-full h-screen flex flex-col items-center justify-center p-3"
-      onClick={handleClick}
-    >
+    <Layout onClick={handleClick} showToggle>
       <LeftSection />
       <RightSection />
       <Word />
       <ProgressBar />
       <Modal />
-    </section>
+    </Layout>
   );
 }

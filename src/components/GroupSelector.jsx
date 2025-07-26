@@ -16,7 +16,7 @@ export default function GroupSelector() {
 
   return (
     <select
-      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block text-center w-full p-2 mb-5 max-w-[380px]"
+      className="bg-text border border-subtext text-background text-sm rounded-lg block text-center w-full p-2 max-w-[380px]"
       onChange={handleChange}
       name="gra"
       id="gra"

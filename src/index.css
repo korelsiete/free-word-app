@@ -1,32 +1,75 @@
 @import "tailwindcss";
 
-.text-container {
-  width: 95%;
-  max-width: 600px;
-  margin: auto;
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --primary-text: oklch(20.77% 0.04 265.75);
+  --secondary-text: oklch(44.55% 0.037 257.28);
+  --background: oklch(98.42% 0.003 247.86);
+  --primary: oklch(71.48% 0.126 215.22);
+  --primary-light: oklch(81% 0.11 215.22);
+  --primary-dark: oklch(61% 0.14 215.22);
+  --secondary: oklch(66.68% 0.259 322.15);
+  --secondary-light: oklch(76% 0.23 322.15);
+  --secondary-dark: oklch(56% 0.28 322.15);
+  --accent: oklch(76.81% 0.204 130.85);
+  --accent-light: oklch(86% 0.18 130.85);
+  --accent-dark: oklch(66% 0.22 130.85);
+
+  @variant dark {
+    --primary-text: oklch(96.7% 0.003 264.54);
+    --secondary-text: oklch(71.37% 0.019 261.32);
+    --background: oklch(21.01% 0.032 264.66);
+    --primary: oklch(79.71% 0.134 211.53);
+    --primary-light: oklch(89% 0.12 211.53);
+    --primary-dark: oklch(69% 0.15 211.53);
+    --secondary: oklch(74.77% 0.207 322.16);
+    --secondary-light: oklch(84% 0.18 322.16);
+    --secondary-dark: oklch(64% 0.23 322.16);
+    --accent: oklch(89.72% 0.179 126.67);
+    --accent-light: oklch(95% 0.16 126.67);
+    --accent-dark: oklch(79% 0.19 126.67);
+  }
 }
 
-.word {
-  font-size: calc(25px + 0.5vw);
-  font-weight: 500;
-  line-height: 1.2;
+@theme inline {
+  --color-text: var(--primary-text);
+  --color-subtext: var(--secondary-text);
+  --color-background: var(--background);
+
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-dark: var(--secondary-dark);
+
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
 }
 
-.meaning {
-  font-size: calc(14px + 1vw);
-  color: #333;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.1;
-  text-align: center;
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.2s ease-in-out;
+  }
 }
 
-.text-responsive {
-  display: block;
-  max-width: fit-content;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  margin: 0 auto;
+@layer components {
+  .button {
+      display: flex;
+      align-items: center
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: var(--font-weight-medium);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      --webkit-user-select: none;
+      user-select: none;
+  }
 }
 
 .btn-main {
@@ -42,13 +85,13 @@
 }
 
 .form-input {
-  @apply border-2 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white;
+  @apply border-2 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white;
 }
 
 .form-textarea {
-  @apply border-2 rounded px-2 py-1 leading-[15px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[85px] bg-white;
+  @apply border-2 rounded px-2 py-1 leading-[15px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[85px] bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white;
 }
 
 .form-inputWord {
-  @apply border-2 rounded px-2 py-1 leading-[18px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[217px];
+  @apply border-2 rounded px-2 py-1 leading-[18px] w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-[217px] dark:bg-gray-800 dark:border-gray-700 dark:text-white;
 }

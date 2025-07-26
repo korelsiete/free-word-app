@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FreeWord</title>
+    <script>
+      const current = JSON.parse(localStorage.getItem("theme"));
+
+      if (current?.version === undefined) {
+        const preference = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        document.documentElement.classList.toggle("dark", preference);
+        localStorage.setItem(
+          "theme",
+          JSON.stringify({
+            state: {
+              mode: preference ? "dark" : "light",
+            },
+          })
+        );
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,7 +1,7 @@
 import useToggleStore from "../stores/useToggleStore";
 import useWordStore from "../stores/useWordStore";
 import { copyToClipboard } from "../utils/web";
-import { IconButton } from "./Button";
+import { Icon } from "./Button";
 import { AddForm, EditForm, EditTimeForm, InputForm } from "./Form";
 
 export default function Modal() {
@@ -45,24 +45,24 @@ export default function Modal() {
       {isAnyOpen && (
         <div
           onClick={handleClose}
-          className="w-full h-screen top-0 left-0 right-0 bottom-0 fixed bg-[#313131cc]"
+          className="w-full h-screen top-0 left-0 right-0 bottom-0 fixed bg-[#313131cc] dark:bg-[#000000cc]"
         >
           <div
-            className="absolute top-[32%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#f1f1f1] px-[28px] pb-[14px] pt-[50px] rounded-[3px] max-w-[400px] min-w-[290px]"
+            className="absolute top-[32%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-background px-[28px] pb-[14px] pt-[50px] rounded-[3px] max-w-[400px] min-w-[290px]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-[8px] right-[8px] flex gap-[6px]">
               {(isOpenAdd || isOpenInput) && (
                 <>
-                  <IconButton icon="copy" size="small" onClick={handleCopy} />
-                  <IconButton icon="input" size="small" onClick={handleInput} />
+                  <Icon type="copy" size="small" onClick={handleCopy} />
+                  <Icon type="input" size="small" onClick={handleInput} />
                 </>
               )}
               <span
                 className="block cursor-pointer w-7 h-7"
                 onClick={handleClose}
               >
-                <IconButton icon="close" size="small" color="danger" />
+                <Icon type="close" size="small" color="danger" />
               </span>
             </div>
             {isOpenAdd && <AddForm />}

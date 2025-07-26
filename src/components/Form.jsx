@@ -45,7 +45,7 @@ function AddForm() {
       />
       <select
         name="group"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
+        className="bg-accent-light text-text dark:bg-accent dark:text-background text-sm font-bold rounded-lg block w-full p-2 text-center"
         onChange={(e) => setGroup(e.target.value)}
         required
       >
@@ -61,7 +61,7 @@ function AddForm() {
 
       <select
         name="accent"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 text-center"
+        className="bg-accent-light text-text dark:bg-accent dark:text-background text-sm font-bold  rounded-lg block w-full p-2 text-center"
         required
       >
         {group.length === 1 ? (
@@ -134,9 +134,7 @@ function EditForm() {
         className="form-textarea"
       />
       <div className="flex gap-2">
-        <Button type="submit" color="second">
-          Guardar
-        </Button>
+        <Button type="submit">Guardar</Button>
         <Button type="button" color="danger" onClick={handleDelete}>
           Eliminar
         </Button>
@@ -159,7 +157,7 @@ function EditTimeForm() {
 
   return (
     <form className="form-container" onSubmit={handleEditTime}>
-      <label className="block text-gray-700 text-md font-bold">
+      <label className="block text-text text-md font-bold">
         Ajustar duración (segundos):
       </label>
       <input
